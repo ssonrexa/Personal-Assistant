@@ -24,27 +24,28 @@ graph TB
     end
     
     subgraph "Storage & Memory"
-        E <--> Q[LangGraph State<br/>Working Memory]
-        E <--> R[ChromaDB<br/>Long-term Patterns]
-        R --> S[User Preferences]
-        R --> T[Successful Workflows]
-        R --> U[Failed Tasks]
-        R --> V[Context Injector]
-        V --> E
+        D <--> Q[Chainlit Sessions<br/>Chat History]
+        E <--> R[LangGraph State<br/>Working Memory]
+        E <--> S[ChromaDB<br/>Long-term Patterns]
+        S --> T[User Preferences]
+        S --> U[Successful Workflows]
+        S --> V[Failed Tasks]
+        S --> W[Context Injector]
+        W --> E
     end
     
     subgraph "LLM Layer"
-        G --> W[LLM Abstraction Layer]
-        H --> W
-        I --> W
-        J --> W
-        K --> W
-        W --> X[Claude/GPT-4<br/>Cloud Models]
-        W --> Y[Local Models<br/>Ollama/o3-mini]
+        G --> X[LLM Abstraction Layer]
+        H --> X
+        I --> X
+        J --> X
+        K --> X
+        X --> Y[Claude/GPT-4<br/>Cloud Models]
+        X --> Z[LM Studio API<br/>Local Models]
     end
     
     subgraph "External Tools"
-        Z[VS Code/Cursor<br/>Coding AI]
+        AA[VS Code/Cursor<br/>Coding AI]
     end
 
     classDef inputLayer fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000000
@@ -57,6 +58,6 @@ graph TB
     class A,B,C,D inputLayer
     class E,F,G,H,I,J,K coreLayer
     class L,M,N,O,P toolLayer
-    class Q,R,S,T,U,V storageLayer
-    class W,X,Y llmLayer
-    class Z externalLayer
+    class Q,R,S,T,U,V,W storageLayer
+    class X,Y,Z llmLayer
+    class AA externalLayer
