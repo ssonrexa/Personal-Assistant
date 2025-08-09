@@ -1,0 +1,83 @@
+--Design 7/18/2025
+
+**Updated Setup Plan & Architecture:**
+
+**Core Infrastructure:**
+- **Single Assistant**: Role-switching (Organizer/Researcher/Coach/Accelerator)
+- **Multi-LLM Synthesis**: Claude + GPT + others for validation
+- **Human-in-the-Loop**: Feedback system with confidence scoring
+- **Chat/Voice**: Chainlit + Porcupine voice daemon
+- **Context System**: ChromaDB + feedback metadata + behavioral analytics
+- **MCP Servers**: Docker containers for tools/data sources
+
+**Updated Architecture:**
+
+```
+┌─────────────────┐    ┌─────────────────┐
+│   User Input    │    │   User Input    │
+│   (Voice/Text)  │    │     (Chat)      │
+└─────────┬───────┘    └─────────┬───────┘
+          │                      │
+          ▼                      ▼
+┌─────────────────┐    ┌─────────────────┐
+│  Voice Daemon   │    │    Chainlit     │
+│  + Porcupine    │    │   Web Interface │
+└─────────┬───────┘    └─────────┬───────┘
+          │                      │
+          ▼                      ▼
+┌─────────────────────────────────────────┐
+│        Single Role-Switching Assistant  │
+│  ┌─────────────────────────────────┐   │
+│  │  - Multi-LLM synthesis layer    │   │
+│  │  - Role contexts (Coach/Org/etc)│   │
+│  │  - Validation & confidence      │   │
+│  │  - Human feedback integration   │   │
+│  │  - Behavioral pattern analysis  │   │
+│  │  - Capability audit management  │   │
+│  └─────────────────────────────────┘   │
+└─────────┬───────────────────────────────┘
+          │
+          ▼
+┌─────────────────────────────────────────┐
+│     Context System (ChromaDB + SQLite)  │
+│  - Conversations + feedback metadata    │
+│  - Confidence scores + override tracking│
+│  - Behavioral analytics + patterns      │
+└─────────┬───────────────────────────────┘
+          │
+          ▼
+┌─────────────────────────────────────────┐
+│  MCP Servers + Activity Monitor Daemon │
+│  Tools + Data Sources + PC Monitoring  │
+└─────────────────────────────────────────┘
+```
+
+**Updated Goals:**
+1. **Organize**: Task/calendar management
+2. **Accelerate**: Research automation, quick answers
+3. **Learn Patterns**: Behavioral analytics for strengths/weaknesses
+4. **Coach Independence**: Capability audits, graduated assistance reduction
+5. **Enhance Flow**: Non-intrusive meaning/engagement optimization
+
+**To Be Designed**
+1. **Validation Layer**: Agent + Human-in-the-loop validation scheme for the goals listed above. Current state of AIs means they are prone to errors and hallucinations
+and because they are very convincing it is hard to know when an error might be happening. How do we limit this through better validation and error checking?
+
+**Implementation Phases:**
+1. Basic chat assistant
+2. Context system + feedback
+3. Voice interface
+4. Multi-LLM synthesis
+5. MCP framework
+6. Behavioral analytics
+7. Coach mode + capability audits
+
+**Context Summary:**
+
+**Project:** AI coach that makes itself obsolete by building user independence through role-switching assistance, multi-LLM validation, and behavioral analytics.
+
+**Key Innovation:** Human-in-the-loop feedback system stores confidence metadata in ChromaDB, enabling pattern validation and gradual capability transfer.
+
+**Architecture:** Single assistant with role contexts, multi-LLM synthesis for important decisions, and coaching functions for skill development audit.
+
+**Success Metric:** Reduced assistant dependency over time while maintaining enhanced productivity and self-awareness.
