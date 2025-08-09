@@ -1,0 +1,62 @@
+graph TB
+    subgraph "Input Layer"
+        A[Voice Input] --> B[OVOS Pipeline]
+        C[Web Chat] --> D[Chainlit UI]
+    end
+    
+    subgraph "Core Processing"
+        B --> E[LangGraph Orchestrator]
+        D --> E
+        E --> F[Agent Router]
+        F --> G[Research Agent]
+        F --> H[Project Agent]
+        F --> I[Scheduling Agent]
+        F --> J[Data Viz Agent]
+        F --> K[Notes Agent]
+    end
+    
+    subgraph "Tools"
+        G --> L[Web Search]
+        H --> M[Project Planning<br/>Documentation]
+        I --> N[Outlook API]
+        J --> O[Plotting Libs]
+        K --> P[Notion API]
+    end
+    
+    subgraph "Storage & Memory"
+        E <--> Q[LangGraph State<br/>Working Memory]
+        E <--> R[ChromaDB<br/>Long-term Patterns]
+        R --> S[User Preferences]
+        R --> T[Successful Workflows]
+        R --> U[Failed Tasks]
+        R --> V[Context Injector]
+        V --> E
+    end
+    
+    subgraph "LLM Layer"
+        G --> W[LLM Abstraction Layer]
+        H --> W
+        I --> W
+        J --> W
+        K --> W
+        W --> X[Claude/GPT-4<br/>Cloud Models]
+        W --> Y[Local Models<br/>Ollama/o3-mini]
+    end
+    
+    subgraph "External Tools"
+        Z[VS Code/Cursor<br/>Coding AI]
+    end
+
+    classDef inputLayer fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000000
+    classDef coreLayer fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000000
+    classDef toolLayer fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px,color:#000000
+    classDef storageLayer fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000000
+    classDef llmLayer fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#000000
+    classDef externalLayer fill:#f1f8e9,stroke:#33691e,stroke-width:2px,color:#000000
+
+    class A,B,C,D inputLayer
+    class E,F,G,H,I,J,K coreLayer
+    class L,M,N,O,P toolLayer
+    class Q,R,S,T,U,V storageLayer
+    class W,X,Y llmLayer
+    class Z externalLayer

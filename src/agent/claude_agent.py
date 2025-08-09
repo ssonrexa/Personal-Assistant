@@ -1,4 +1,4 @@
-from anthropic import Anthropic
+from anthropic import Anthropic, APIConnectionError, APITimeoutError, RateLimitError 
 from config.settings import settings
 import base64
 
@@ -31,5 +31,11 @@ class ClaudeAgent:
                 messages=messages
             )
             return response.content[0].text
+        except APIConnectionError:
+            return "ERROR: Unable to reach Claude API. Please check your internet connection and try again."
+        except APITimeoutError:
+            return "ERROR: Claude API request timed out. The service might be experiencing high load. Try again in a moment."
+        except RateLimitError:
+            return "ERROR: Rate limit exceeded. Please wait a moment before sending another message."
         except Exception as e:
-            return f"Error: {str(e)}"
+            return f"ERROR: Unexpected error occurred: {str(e)}"
