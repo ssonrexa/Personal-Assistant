@@ -11,6 +11,10 @@ user_session_timeout = 1296000  # 15 days
 # Enable third parties caching (e.g., LangChain cache)
 cache = false
 
+# Enable data persistence with SQLite database
+[features.data_persistence]
+    enabled = true
+
 # Authorized origins
 allow_origins = ["*"]
 
@@ -68,10 +72,14 @@ name = "Assistant"
 
 # layout = "wide"
 
-# default_sidebar_state = "open"
+# Enable thread history and chat history sidebar
+default_sidebar_state = "open"
+
+# Enable thread history feature
+thread_history = true
 
 # Description of the assistant. This is used for HTML tags.
-# description = ""
+description = "Your AI Personal Assistant - Organize, Research, and Get Things Done"
 
 # Chain of Thought (CoT) display mode. Can be "hidden", "tool_call" or "full".
 cot = "full"

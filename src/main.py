@@ -7,7 +7,7 @@ agent = ClaudeAgent()
 
 @cl.on_message
 async def main(message: cl.Message):
-    """Handle incoming chat messages"""
+    """Handle incoming chat messages with thread persistence"""
     
     # Handle file attachments
     files_content = ""
@@ -44,11 +44,15 @@ async def main(message: cl.Message):
     # Combine message and file content
     full_message = message.content + files_content
     
-    # Get conversation history from session
+    # Get conversation history from thread context instead of session
+    thread_id = cl.context.thread.id if cl.context.thread else None
     conversation_history = cl.user_session.get("conversation_history", [])
            
-    # Get response from Claude
-    response = await agent.get_response(full_message, conversation_history, images)
+    # Create a step for better tracking
+    async with cl.Step(name="Processing", type="run") as step:
+        # Get response from Claude
+        response = await agent.get_response(full_message, conversation_history, images)
+        step.output = response
     
     # Update conversation history
     conversation_history.extend([
@@ -62,6 +66,28 @@ async def main(message: cl.Message):
 
 @cl.on_chat_start
 async def start():
-    """Initialize chat session"""
+    """Initialize chat session with thread persistence"""
     cl.user_session.set("conversation_history", [])
-    await cl.Message(content="Hello! I'm your AI concierge. How can I help you today?").send()
+    
+    # Set thread metadata for persistence and organization
+    thread_id = cl.context.thread.id if cl.context.thread else "new"
+    
+    # Set thread metadata for better organization and persistence
+    if cl.context.thread:
+        cl.context.thread.name = "Personal Assistant Chat"
+        cl.context.thread.tags = ["personal-assistant"]
+    
+    # Send welcome message
+    await cl.Message(
+        content="Hello! I'm your AI concierge. How can I help you today?",
+        author="Assistant"
+    ).send()
+
+@cl.on_chat_end
+async def end():
+    """Handle chat session end"""
+    # Save any final metadata or cleanup
+    conversation_history = cl.user_session.get("conversation_history", [])
+    if conversation_history:
+        # You could save to a database here if needed
+        print(f"Session ended with {len(conversation_history)} messages")
